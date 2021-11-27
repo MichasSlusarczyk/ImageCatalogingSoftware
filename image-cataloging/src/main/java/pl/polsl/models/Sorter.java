@@ -1,5 +1,7 @@
 package pl.polsl.models;
-import java. util.*;
+import java.util.List;
+
+;
 
 public class Sorter {
     public void group(List<String> imagePaths)
