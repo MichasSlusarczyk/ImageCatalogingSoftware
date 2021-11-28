@@ -57,7 +57,7 @@ public class TableView extends javax.swing.JPanel {
         analyzeButton = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Wcześniejsze foldery");
+        jLabel1.setText("Previously analyzed folders");
 
         jScrollPane1.setFocusable(false);
         jScrollPane1.setViewportView(table);
@@ -68,7 +68,7 @@ public class TableView extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Ścieżka", "Liczba zdjęć", "Data utworzenia"
+                "Path", "Number of photos ", "Creation date"
             }
         ) {
             Class[] types = new Class [] {
@@ -101,15 +101,15 @@ public class TableView extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(1).setMinWidth(100);
-            table.getColumnModel().getColumn(1).setPreferredWidth(100);
+            table.getColumnModel().getColumn(1).setMinWidth(150);
+            table.getColumnModel().getColumn(1).setPreferredWidth(150);
             table.getColumnModel().getColumn(1).setMaxWidth(200);
             table.getColumnModel().getColumn(2).setMinWidth(150);
             table.getColumnModel().getColumn(2).setPreferredWidth(150);
             table.getColumnModel().getColumn(2).setMaxWidth(300);
         }
 
-        analyzeButton.setText("Analizuj folder");
+        analyzeButton.setText("Analyze folder");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -119,10 +119,10 @@ public class TableView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                    .addComponent(analyzeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(analyzeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
