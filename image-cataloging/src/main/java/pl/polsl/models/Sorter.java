@@ -11,20 +11,20 @@ public class Sorter {
     
     ArrayList<HashedImage> hashedImages;
     ArrayList<ArrayList<String>> sortedImages;
-    double similarityTreshold;
+    double similarityThreshold;
     
     public Sorter()
     {
         hashedImages = new ArrayList<>();
         sortedImages = new ArrayList<>();
-        similarityTreshold = 0.75;
+        similarityThreshold = 0.75;
     }
     
     public Sorter(double treshold)
     {
         hashedImages = new ArrayList<>();
         sortedImages = new ArrayList<>();
-        similarityTreshold = treshold;
+        similarityThreshold = treshold;
     }
     
     public void sort(ArrayList<String> imagePaths)
@@ -39,19 +39,17 @@ public class Sorter {
             
             for(int i=0; i< unsortedImagesCount; i++)
             {
-                if(compareHashCodes(firstImageHash, hashedImages.get(i).hash) >= similarityTreshold)
+                if(compareHashCodes(firstImageHash, hashedImages.get(i).hash) >= similarityThreshold)
                {
                   virtualFolder.add(hashedImages.get(i).path);
                   hashedImages.get(i).hash="0";
                 }
             }
             
-            hashedImages.removeIf( (hi) -> hi.hash.equals("0"));       
+            hashedImages.removeIf( hi -> hi.hash.equals("0"));       
 
             sortedImages.add(virtualFolder);
         }
-        
-        System.out.println( "Hello World!" );
     }
     
     private void generateHashcodes(ArrayList<String> imagePaths)
@@ -95,9 +93,7 @@ public class Sorter {
            }
         }
         
-        double result = ((double)counter/64);
-        
-        return result;
+        return ((double)counter/64);
     }
 }
 
