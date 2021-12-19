@@ -7,27 +7,27 @@ import java.awt.Image;
 import java.io.File;
 import pl.polsl.models.hashcode.*;
 
-public class Sorter {
+public class Cataloger {
     
     ArrayList<HashedImage> hashedImages;
     ArrayList<ArrayList<String>> sortedImages;
     double similarityThreshold;
     
-    public Sorter()
+    public Cataloger()
     {
         hashedImages = new ArrayList<>();
         sortedImages = new ArrayList<>();
         similarityThreshold = 0.75;
     }
     
-    public Sorter(double treshold)
+    public Cataloger(double treshold)
     {
         hashedImages = new ArrayList<>();
         sortedImages = new ArrayList<>();
         similarityThreshold = treshold;
     }
     
-    public void sort(ArrayList<String> imagePaths)
+    public void catalog(ArrayList<String> imagePaths)
     {
         generateHashcodes(imagePaths);
            
@@ -61,9 +61,11 @@ public class Sorter {
             HashedImage singleImage = new HashedImage();
             singleImage.path = imagePaths.get(i);
             Image img = getImage(singleImage.path);
-            singleImage.hash = Long.toBinaryString(pih.getPerceptualHash(img));
-            
-            hashedImages.add(singleImage);
+            if(img != null)
+            {
+                singleImage.hash = Long.toBinaryString(pih.getPerceptualHash(img));
+                hashedImages.add(singleImage);
+            }
         }
     }
     
@@ -77,9 +79,8 @@ public class Sorter {
         } 
         catch (IOException e) 
         {
+            return null;
         }
-        
-        return null;
     }
     
     private double compareHashCodes(String firstImageHash, String secondImageHash)

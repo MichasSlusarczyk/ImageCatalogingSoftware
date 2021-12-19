@@ -1,7 +1,5 @@
 package pl.polsl.models.hashcode;
 
-
-import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.io.File;

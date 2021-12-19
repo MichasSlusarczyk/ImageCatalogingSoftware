@@ -1,7 +1,5 @@
 package pl.polsl.models.hashcode;
 
-import pl.polsl.models.hashcode.AverageHashImageHash;
-
 public class PerceptualImageHashes {
 
     private static final PHashImageHash P_HASH_IMAGE_HASH = new PHashImageHash();
