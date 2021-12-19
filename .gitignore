@@ -1,1 +1,4 @@
 /image-cataloging/target/
+# intellij configs
+.idea/
+image-cataloging/.idea
