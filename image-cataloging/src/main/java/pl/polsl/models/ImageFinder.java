@@ -24,7 +24,7 @@ public class ImageFinder {
     }
     
     public ArrayList<File> getImages(String startDir){
-        images = new ArrayList();
+        images = new ArrayList<>();
         return searchRecursivly(startDir);
     }
 
