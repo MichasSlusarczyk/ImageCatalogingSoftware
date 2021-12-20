@@ -16,14 +16,19 @@ import java.util.Arrays;
 public class ImageFinder {
 
     private final String[] extensions = {"jpg", "png"};
-    private ArrayList<File> images = new ArrayList<>();;
+    private ArrayList<File> images;
     
     public String getExtension(String fileName) {
         int i = fileName.lastIndexOf('.');
         return i > 0 ? fileName.substring(i + 1) : "";
     }
+    
+    public ArrayList<File> getImages(String startDir){
+        images = new ArrayList();
+        return searchRecursivly(startDir);
+    }
 
-    public ArrayList<File> searchRecursivly(String startDir) {
+    private ArrayList<File> searchRecursivly(String startDir) {
         File directory = new File(startDir);
 
         File[] files = directory.listFiles();

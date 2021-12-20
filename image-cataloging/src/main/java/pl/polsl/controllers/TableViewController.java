@@ -92,7 +92,7 @@ public class TableViewController {
         fileChooser.setAcceptAllFileFilterUsed(false);
         if (fileChooser.showOpenDialog(analyzeButton) == JFileChooser.APPROVE_OPTION) {
             String realFolderPath = fileChooser.getSelectedFile().getAbsolutePath();
-            ArrayList<File> images = imageFinder.searchRecursivly(realFolderPath);
+            ArrayList<File> images = imageFinder.getImages(realFolderPath);
             ArrayList<String> pathsList = new ArrayList<>();
             if (!images.isEmpty()) {
                 images.forEach(image -> {
