@@ -8,6 +8,7 @@ package pl.polsl.controllers;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,7 +90,7 @@ public class TableViewController {
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.setAcceptAllFileFilterUsed(false);
         if (fileChooser.showOpenDialog(analyzeButton) == JFileChooser.APPROVE_OPTION) {
-            ArrayList<File> images = imageFinder.getImages(fileChooser.getSelectedFile().getAbsolutePath());
+            ArrayList<File> images = imageFinder.searchRecursivly(fileChooser.getSelectedFile().getAbsolutePath());
             ArrayList<String> pathsList = new ArrayList<>();
             if (!images.isEmpty()) {
                 for (File image : images) {
@@ -111,8 +112,13 @@ public class TableViewController {
     private void addToPreviouslyAnalyzed(String path, Integer imageCount) {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-        CSVWriter.write("src\\main\\resources\\previousFolders.csv", ";", path, imageCount.toString(),
+        try{
+            CSVWriter.write("src\\main\\resources\\previousFolders.csv", ";", path, imageCount.toString(),
                 formatter.format(date));
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(analyzeButton, "Couldn't add folder to previously analyzed list", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+        }
         fillTable();
     }
 }

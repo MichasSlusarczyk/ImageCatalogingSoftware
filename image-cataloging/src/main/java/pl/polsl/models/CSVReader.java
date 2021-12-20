@@ -19,14 +19,16 @@ public class CSVReader {
 
     public List<Object[]> read(String path, String delimiter) {
         ArrayList<Object[]> records = new ArrayList<>();
-        try ( Scanner scanner = new Scanner(new File(path));) {
-            while (scanner.hasNextLine()) {
-                records.add(getRecordFromLine(scanner.nextLine(), delimiter));
+        File saveFile = new File(path);
+        if (saveFile.exists()) {
+            try ( Scanner scanner = new Scanner(saveFile);) {
+                while (scanner.hasNextLine()) {
+                    records.add(getRecordFromLine(scanner.nextLine(), delimiter));
+                }
+            } catch (FileNotFoundException e) {
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
         }
+
         return records;
     }
 

@@ -17,27 +17,28 @@ import java.util.Scanner;
  */
 public class CSVWriter {
 
-    public void write(String path, String delimiter, String... data) {
+    public void write(String path, String delimiter, String... data) throws IOException {
         String newRow = String.join(delimiter, data);
         ArrayList<String> rows = new ArrayList<>();
         rows.add(newRow);
-        try {
-            Scanner scanner = new Scanner(new File(path));
-            for (int i = 0; i < 9; i++) {
-                if (scanner.hasNextLine()) {
-                    rows.add(scanner.nextLine());
-                }
+        File saveFile = new File(path);
+        if (!saveFile.exists()) {
+            try {
+                saveFile.createNewFile();
+            } catch (IOException e) {
             }
-            FileWriter writer = new FileWriter(path);
-            for (String row : rows) {
-                writer.append(row).write("\n");
-            }
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
         }
-
+        Scanner scanner = new Scanner(new File(path));
+        for (int i = 0; i < 9; i++) {
+            if (scanner.hasNextLine()) {
+                rows.add(scanner.nextLine());
+            }
+        }
+        FileWriter writer = new FileWriter(path);
+        for (String row : rows) {
+            writer.append(row).write("\n");
+        }
+        writer.flush();
+        writer.close();
     }
 }
