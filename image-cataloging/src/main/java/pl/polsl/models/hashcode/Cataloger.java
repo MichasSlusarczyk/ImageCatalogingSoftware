@@ -1,11 +1,11 @@
-package pl.polsl.models;
+package pl.polsl.models.hashcode;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.io.File;
-import pl.polsl.models.hashcode.*;
+import pl.polsl.models.snapshot.*;
 
 public class Cataloger {
     
@@ -27,7 +27,7 @@ public class Cataloger {
         similarityThreshold = treshold;
     }
     
-    public void catalog(ArrayList<String> imagePaths)
+    public void catalog(String realFolderPath, ArrayList<String> imagePaths) throws IOException
     {
         generateHashcodes(imagePaths);
            
@@ -48,7 +48,15 @@ public class Cataloger {
             
             hashedImages.removeIf( hi -> hi.hash.equals("0"));       
 
-            sortedImages.add(virtualFolder);
+            sortedImages.add(virtualFolder); 
+        }
+        
+        SnapshotWriter snapshot = new SnapshotWriter();
+        snapshot.initializeSnapshot(realFolderPath);
+
+        for(int i=1; i<=sortedImages.size(); i++)
+        {
+            snapshot.createFolder("Folder"+i, sortedImages.get(i-1));
         }
     }
     
