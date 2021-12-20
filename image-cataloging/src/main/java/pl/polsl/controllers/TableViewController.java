@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import pl.polsl.models.CSVReader;
 import pl.polsl.models.CSVWriter;
 import pl.polsl.models.ImageFinder;
+import pl.polsl.models.hashcode.Cataloger;
 import pl.polsl.views.TableView;
 
 /**
@@ -90,14 +91,20 @@ public class TableViewController {
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.setAcceptAllFileFilterUsed(false);
         if (fileChooser.showOpenDialog(analyzeButton) == JFileChooser.APPROVE_OPTION) {
-            ArrayList<File> images = imageFinder.searchRecursivly(fileChooser.getSelectedFile().getAbsolutePath());
+            String realFolderPath = fileChooser.getSelectedFile().getAbsolutePath();
+            ArrayList<File> images = imageFinder.searchRecursivly(realFolderPath);
             ArrayList<String> pathsList = new ArrayList<>();
             if (!images.isEmpty()) {
-                for (File image : images) {
+                images.forEach(image -> {
                     pathsList.add(image.getAbsolutePath());
-                    System.out.println(image.getAbsolutePath());
+                });
+                try{
+                    Cataloger cataloger = new Cataloger();
+                    cataloger.catalog(realFolderPath,pathsList);
+                }catch(IOException e){
+                    JOptionPane.showMessageDialog(analyzeButton, "Couldn't sort images", "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 }
-                // klasaMichała.przyjmijListeSciezek(pathsList)
                 addToPreviouslyAnalyzed(fileChooser.getSelectedFile().getAbsolutePath(), images.size());
             } else {
                 JOptionPane.showMessageDialog(analyzeButton, "There are no images in this folder", "Results",
