@@ -1,4 +1,5 @@
 /image-cataloging/target/
+/image-cataloging/src/main/resources/previousFolders.csv
 # intellij configs
 .idea/
 image-cataloging/.idea

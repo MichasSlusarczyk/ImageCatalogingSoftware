@@ -1,9 +1,13 @@
 package pl.polsl;
 
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import pl.polsl.controllers.*;
+import pl.polsl.views.*;
+
+public class App {
+
+    public static void main(String[] args) {
+        MainWindow view = new MainWindow();
+        Controller controller = new Controller(view);
+        controller.initController();
     }
 }
