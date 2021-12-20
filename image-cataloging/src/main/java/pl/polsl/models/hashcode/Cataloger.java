@@ -54,9 +54,9 @@ public class Cataloger {
         SnapshotWriter snapshot = new SnapshotWriter();
         snapshot.initializeSnapshot(realFolderPath);
 
-        for(Integer i=1; i<=sortedImages.size(); i++)
+        for(int i=1; i<=sortedImages.size(); i++)
         {
-            snapshot.createFolder("Folder".concat(i.toString()), sortedImages.get(i-1));
+            snapshot.createFolder("Folder"+i, sortedImages.get(i-1));
         }
     }
     
