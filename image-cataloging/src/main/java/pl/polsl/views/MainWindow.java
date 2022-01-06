@@ -72,6 +72,10 @@ public class MainWindow extends javax.swing.JFrame {
     public TableView getTableView() {
         return tableView;
     }
+    
+    public FolderView getFolderView() {
+        return folderView;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -153,10 +157,8 @@ public class MainWindow extends javax.swing.JFrame {
         // </editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                mainWindow.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            mainWindow.setVisible(true);
         });
     }
 

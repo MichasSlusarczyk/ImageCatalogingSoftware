@@ -8,10 +8,12 @@ public class Controller {
 
     private final MainWindow view;
     private final TableViewController tableViewController;
+    private final FolderViewController folderViewController;
 
     public Controller(MainWindow v) {
         view = v;
-        tableViewController = new TableViewController(view.getTableView());
+        folderViewController = new FolderViewController(view.getFolderView(),view);
+        tableViewController = new TableViewController(view.getTableView(), folderViewController);
         initView();
         view.draw(view);
 

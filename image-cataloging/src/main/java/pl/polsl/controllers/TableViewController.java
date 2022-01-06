@@ -33,15 +33,17 @@ public class TableViewController {
     TableView view;
     CSVReader CSVReader;
     CSVWriter CSVWriter;
+    FolderViewController folderViewController;
     JTable table;
     ImageFinder imageFinder;
     JButton analyzeButton;
 
-    public TableViewController(TableView v) {
+    public TableViewController(TableView v, FolderViewController folderController) {
         view = v;
         CSVReader = new CSVReader();
         CSVWriter = new CSVWriter();
         imageFinder = new ImageFinder();
+        folderViewController = folderController;
         initController();
     }
 
@@ -57,7 +59,7 @@ public class TableViewController {
             }
         });
         analyzeButton = view.getAnalyzeButton();
-        analyzeButton.addActionListener(e -> analyzeDirectory());
+        analyzeButton.addActionListener(e -> analyzeDirectory(getFolderPath()));
     }
 
     public void fillTable() {
@@ -74,7 +76,7 @@ public class TableViewController {
     private void analyzePreviousFolderDialog(String path) {
         Object[] options1 = {"Cancel", "Analyze again",
             "Open"};
-        JOptionPane.showOptionDialog(table,
+        int input = JOptionPane.showOptionDialog(table,
                 "You have selected "
                 + path,
                 "Previously analyzed folder",
@@ -82,49 +84,59 @@ public class TableViewController {
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 options1, options1[2]);
+        if (input == 2) {
+            folderViewController.fillFolderTree(path);
+        }
+        if (input == 1) {
+            analyzeDirectory(path);
+        }
     }
-
-    public void analyzeDirectory() {
+    
+    public String getFolderPath(){
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new java.io.File("."));
-        fileChooser.setDialogTitle("Select directory");
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        if (fileChooser.showOpenDialog(analyzeButton) == JFileChooser.APPROVE_OPTION) {
-            String realFolderPath = fileChooser.getSelectedFile().getAbsolutePath();
-            ArrayList<File> images = imageFinder.getImages(realFolderPath);
-            ArrayList<String> pathsList = new ArrayList<>();
-            if (!images.isEmpty()) {
-                images.forEach(image -> {
-                    pathsList.add(image.getAbsolutePath());
-                });
-                try{
-                    Cataloger cataloger = new Cataloger();
-                    cataloger.catalog(realFolderPath,pathsList);
-                }catch(IOException e){
-                    JOptionPane.showMessageDialog(analyzeButton, "Couldn't sort images", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                }
-                addToPreviouslyAnalyzed(fileChooser.getSelectedFile().getAbsolutePath(), images.size());
+            fileChooser.setCurrentDirectory(new java.io.File("."));
+            fileChooser.setDialogTitle("Select directory");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            if (fileChooser.showOpenDialog(analyzeButton) == JFileChooser.APPROVE_OPTION) {
+               return fileChooser.getSelectedFile().getAbsolutePath();
             } else {
-                JOptionPane.showMessageDialog(analyzeButton, "There are no images in this folder", "Results",
-                        JOptionPane.WARNING_MESSAGE);
+                return "";
             }
-
+    }
+    public void analyzeDirectory(String path) {
+        if(path.equals(""))
+            return;
+        
+        ArrayList<File> images = imageFinder.getImages(path);
+        ArrayList<String> pathsList = new ArrayList<>();
+        if (!images.isEmpty()) {
+            images.forEach(image -> {
+                pathsList.add(image.getAbsolutePath());
+            });
+            try {
+                Cataloger cataloger = new Cataloger();
+                cataloger.catalog(path, pathsList);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(analyzeButton, "Couldn't sort images", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            addToPreviouslyAnalyzed(path, images.size());
         } else {
-            System.out.println("No Selection ");
+            JOptionPane.showMessageDialog(analyzeButton, "There are no images in this folder", "Results",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
     private void addToPreviouslyAnalyzed(String path, Integer imageCount) {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-        try{
+        try {
             CSVWriter.write("src\\main\\resources\\previousFolders.csv", ";", path, imageCount.toString(),
-                formatter.format(date));
-        }catch(IOException e){
+                    formatter.format(date));
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(analyzeButton, "Couldn't add folder to previously analyzed list", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
         }
         fillTable();
     }

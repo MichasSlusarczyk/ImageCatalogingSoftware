@@ -142,10 +142,8 @@ public class TableView extends javax.swing.JPanel {
         if (SwingUtilities.isEventDispatchThread()) {
             table.setRowHeight(table.getVisibleRect().height / 10);
         } else {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    table.setRowHeight(table.getVisibleRect().height / 10);
-                }
+            SwingUtilities.invokeLater(() -> {
+                table.setRowHeight(table.getVisibleRect().height / 10);
             });
         }
     }// GEN-LAST:event_tableComponentResized
