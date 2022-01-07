@@ -15,15 +15,15 @@ import java.util.Arrays;
  */
 public class ImageFinder {
 
-    private final String[] extensions = {"bmp", "png"};
+    private final String[] extensions = {"png"};
     private ArrayList<File> images;
-    
+
     public String getExtension(String fileName) {
         int i = fileName.lastIndexOf('.');
         return i > 0 ? fileName.substring(i + 1) : "";
     }
-    
-    public ArrayList<File> getImages(String startDir){
+
+    public ArrayList<File> getImages(String startDir) {
         images = new ArrayList<>();
         return searchRecursivly(startDir);
     }
