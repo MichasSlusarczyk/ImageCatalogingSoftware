@@ -11,9 +11,16 @@ import java.util.List;
 
 public class SnapshotWriter 
 {
-    public void initializeSnapshot(String path) throws IOException, FileAlreadyExistsException
+    public void initializeSnapshot(String path) throws IOException
     {
         Path directoryPath = Paths.get(path, _rootFolderName);
+        if(Files.exists(directoryPath))
+        {
+            if(!deleteDirectory(directoryPath.toFile()))
+            {
+                throw new IOException();
+            }
+        }
         Files.createDirectory(directoryPath);
         if(System.getProperty("os.name").startsWith("Windows"))
         {
@@ -21,6 +28,16 @@ public class SnapshotWriter
         }
         _directory = Paths.get(path).toString();
         _createFoldersList();
+    }
+
+    private boolean deleteDirectory(File directoryToBeDeleted) {
+        File[] allContents = directoryToBeDeleted.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        return directoryToBeDeleted.delete();
     }
 
     public void createFolder(String folderName, List<String> imagesPathsList) throws IOException, FileAlreadyExistsException
