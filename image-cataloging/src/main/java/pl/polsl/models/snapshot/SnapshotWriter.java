@@ -9,8 +9,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * SnapshotWriter class is used to create new .Snapshot directory with its folders and
+ * cataloged images
+ */
 public class SnapshotWriter 
 {
+    /**
+     * Creates the .Snapshot folder and folders list file in it
+     * @param path directory where it should create the folder
+     * @throws IOException thrown when such folder already exists and can't be deleted
+     */
     public void initializeSnapshot(String path) throws IOException
     {
         Path directoryPath = Paths.get(path, _rootFolderName);
@@ -40,6 +49,13 @@ public class SnapshotWriter
         return directoryToBeDeleted.delete();
     }
 
+    /**
+     * Creates a folder in .Snapshot with its images list
+     * @param folderName name of the folder to be created
+     * @param imagesPathsList list of images contained in this folder
+     * @throws IOException thrown when program can't create a file
+     * @throws FileAlreadyExistsException thrown when such folder already exists
+     */
     public void createFolder(String folderName, List<String> imagesPathsList) throws IOException, FileAlreadyExistsException
     {
         _addFolderToFoldersList(folderName);

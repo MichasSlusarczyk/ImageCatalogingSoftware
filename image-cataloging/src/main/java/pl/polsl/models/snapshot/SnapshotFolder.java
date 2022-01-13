@@ -1,6 +1,7 @@
 package pl.polsl.models.snapshot;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,38 +10,51 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * SnapshotFolder is a class representing a single folder in .Snapshot directory.
+ * It provides the capability of reading list of images contained in folder and 
+ * getting SnapshotImage objects associated with them.
+ */
 public class SnapshotFolder 
 {
-    public SnapshotFolder(String folderPath)
+    /**
+     * Constructor
+     * @param folderName path to folder associated with this object
+     */
+    public SnapshotFolder(String folderName)
     {
-        _folderPath = folderPath;
+        _folderName = folderName;
     }
 
+    /**
+     * Returns the list of images contained in folder
+     * @return list of images
+     * @throws IOException this exception is thrown when program can't read images list from file
+     */
     public List<String> getImagesList() throws IOException
     {
-        try(Stream<String> lines = Files.lines(Paths.get(_folderPath, SnapshotWriter._imagesListFileName)))
+        try(Stream<String> lines = Files.lines(Paths.get(_folderName, SnapshotWriter._imagesListFileName)))
         {
             return lines.collect(Collectors.toList());
         }
     }
 
+    /**
+     * Returns SnapshotImage object associated with desired image
+     * @param imageRealPath real path to image on disk, can be aquired from getImagesList.
+     * @return instance of SnapshotImage
+     * @throws IOException this exception is thrown when program can't find provided image
+     */
     public SnapshotImage getSnapshotImage(String imageRealPath) throws IOException
     {
-        try(FileReader fr = new FileReader(Paths.get(_folderPath, SnapshotWriter._imagesListFileName).toString()))
+        File f = new File(imageRealPath);
+        if(!f.isFile())
         {
-            BufferedReader br = new BufferedReader(fr);
-            String line = null;
-            while((line = br.readLine()) != null)
-            {
-                if(line.equals(imageRealPath))
-                {
-                    return new SnapshotImage(_folderPath, imageRealPath);
-                }
-            }
+            throw new IOException();
         }
-
-        throw new IOException();
+        
+        return new SnapshotImage(_folderName, imageRealPath);
     }
 
-    private String _folderPath;
+    private String _folderName;
 }

@@ -13,15 +13,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import pl.polsl.models.StretchIcon;
 import pl.polsl.models.snapshot.SnapshotFolder;
 import pl.polsl.models.snapshot.SnapshotReader;
 import pl.polsl.views.FolderView;
+import pl.polsl.views.ImagePanel;
 import pl.polsl.views.MainWindow;
 
 /**
@@ -34,7 +33,7 @@ public class FolderViewController {
     MainWindow mainView;
     SnapshotReader snapshotReader;
     JTree foldersTree;
-    JLabel imagePanel;
+    ImagePanel imagePanel;
 
     public FolderViewController(FolderView v, MainWindow mainWindow) {
         folderView = v;
@@ -55,8 +54,8 @@ public class FolderViewController {
                     }
                     if (node.isLeaf()) {
                         TreeImageNode nodeCast = (TreeImageNode) node;
-                        StretchIcon myPicture = new StretchIcon(nodeCast.getFilePath());
-                        imagePanel.setIcon(myPicture);
+                        imagePanel.setImage(nodeCast.getFilePath());
+                        imagePanel.repaint();
                     }
                 }
             }
@@ -68,7 +67,7 @@ public class FolderViewController {
         DefaultMutableTreeNode treeRoot = (DefaultMutableTreeNode) treeModel.getRoot();
         treeRoot.removeAllChildren();
         treeModel.reload();
-        imagePanel.setIcon(null);
+        imagePanel.clear();
         imagePanel.revalidate();
         try {
             ArrayList<FolderToDisplay> imagesStructure = getImagesStructure(path);
