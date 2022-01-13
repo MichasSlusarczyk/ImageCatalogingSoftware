@@ -26,7 +26,7 @@ public class FolderView extends javax.swing.JPanel {
         return jTree1;
     }
     
-    public JLabel getImagePanel() {
+    public ImagePanel getImagePanel() {
         return jLabel1;
     }
 
@@ -45,7 +45,7 @@ public class FolderView extends javax.swing.JPanel {
         jFileChooser1 = new javax.swing.JFileChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel1 = new ImagePanel();//javax.swing.JLabel();
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Sorted Folders");
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -70,7 +70,8 @@ public class FolderView extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser jFileChooser1;
-    private javax.swing.JLabel jLabel1;
+    private ImagePanel jLabel1;
+    //private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables

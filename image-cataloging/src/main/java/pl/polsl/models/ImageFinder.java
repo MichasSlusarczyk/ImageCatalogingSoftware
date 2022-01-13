@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public class ImageFinder {
 
-    private final String[] extensions = {"png"};
+    private final String[] extensions = {"png", "jpg", "bmp"};
     private ArrayList<File> images;
 
     public String getExtension(String fileName) {
