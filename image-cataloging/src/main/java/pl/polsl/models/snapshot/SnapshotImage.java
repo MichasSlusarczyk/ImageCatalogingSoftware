@@ -1,5 +1,9 @@
 package pl.polsl.models.snapshot;
 
+
+/**
+ * SnapshotImage is a class representing a single image in .Snapshot directory
+ */
 public class SnapshotImage 
 {
     /**
