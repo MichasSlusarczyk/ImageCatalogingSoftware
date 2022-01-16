@@ -62,6 +62,11 @@ public class FolderViewController {
         });
     }
 
+    
+    /**
+     * Method that fills folder tree with folders that were craeted after analyzing real folder
+     * @param path path of real folder that has been analyzed
+     */
     void fillFolderTree(String path) {
         DefaultTreeModel treeModel = (DefaultTreeModel) foldersTree.getModel();
         DefaultMutableTreeNode treeRoot = (DefaultMutableTreeNode) treeModel.getRoot();
@@ -93,6 +98,11 @@ public class FolderViewController {
         }
     }
 
+    /**
+     * Method that gets structure created by analyzing folder
+     * @param path path of real folder that has been analyzed
+     * @return data list of folders that will be displayed in folder tree
+     */
     private ArrayList<FolderToDisplay> getImagesStructure(String path) throws IOException {
         snapshotReader = new SnapshotReader(path);
         List<String> Folders = snapshotReader.getFoldersList();

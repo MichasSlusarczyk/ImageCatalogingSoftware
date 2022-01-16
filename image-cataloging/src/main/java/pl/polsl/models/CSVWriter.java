@@ -12,11 +12,17 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- *
+ * class for writing data to csv file
  * @author Szymon Sieczko
  */
 public class CSVWriter {
 
+    /**
+     * Method that writes data to csv file
+     * @param path path to csv file
+     * @param delimiter chars that separete info in csv file
+     * @param data data that will be written to csv file
+     */
     public void write(String path, String delimiter, String... data) throws IOException {
         String newRow = String.join(delimiter, data);
         ArrayList<String> rows = new ArrayList<>();

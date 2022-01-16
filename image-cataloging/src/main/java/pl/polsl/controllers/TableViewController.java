@@ -61,7 +61,9 @@ public class TableViewController {
         analyzeButton = view.getAnalyzeButton();
         analyzeButton.addActionListener(e -> analyzeDirectory(getFolderPath()));
     }
-
+     /**
+     * Method that fills table with data about previously analyzed folders
+     */
     public void fillTable() {
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
         while (tableModel.getRowCount() > 0) {
@@ -72,7 +74,10 @@ public class TableViewController {
             tableModel.addRow(row);
         }
     }
-
+    
+       /**
+     * Dialog that appears after clicking table row
+     */
     private void analyzePreviousFolderDialog(String path) {
         Object[] options1 = {"Cancel", "Analyze again",
             "Open"};
@@ -92,6 +97,9 @@ public class TableViewController {
         }
     }
     
+    /**
+     * Dialog that helps to choose folder to analyze
+     */
     public String getFolderPath(){
         JFileChooser fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(new java.io.File("."));
@@ -104,6 +112,11 @@ public class TableViewController {
                 return "";
             }
     }
+    
+    /**
+     * Method that analyzes given folder
+     * @param path path to real folder
+     */
     public void analyzeDirectory(String path) {
         if(path.equals(""))
             return;
@@ -128,6 +141,11 @@ public class TableViewController {
         }
     }
 
+    /**
+     * Method that add data to csv file that contains info about previously analyzed folders
+     * @param path path to analyzed folder
+     * @param imageCount number of images inside of folder and subfolders
+     */
     private void addToPreviouslyAnalyzed(String path, Integer imageCount) {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
