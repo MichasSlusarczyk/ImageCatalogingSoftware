@@ -4,8 +4,10 @@ package pl.polsl.models.snapshot;
 /**
  * SnapshotImage is a class representing a single image in .Snapshot directory
  */
-public class SnapshotImage 
-{
+public class SnapshotImage {
+    private String folderPath;
+    private String imageRealPath;
+
     /**
      * Constructor
      * @param folderPath 
@@ -13,10 +15,7 @@ public class SnapshotImage
      */
     public SnapshotImage(String folderPath, String imageRealPath)
     {
-        _folderPath = folderPath;
-        _imageRealPath = imageRealPath;
+        this.folderPath = folderPath;
+        this.imageRealPath = imageRealPath;
     }
-
-    private String _folderPath;
-    private String _imageRealPath;
 }

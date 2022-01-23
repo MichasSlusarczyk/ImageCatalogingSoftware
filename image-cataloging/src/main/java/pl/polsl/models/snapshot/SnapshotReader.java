@@ -11,8 +11,10 @@ import java.util.stream.Stream;
 /**
  * SnapshotReader is a class used to get data from .Snapshot directory
  */
-public class SnapshotReader 
-{
+public class SnapshotReader {
+
+    private String directory;
+
     /**
      * Constructor. Associates object with specific .Snapshot directory.
      * @param path Path to .Snapshot
@@ -20,13 +22,13 @@ public class SnapshotReader
      */
     public SnapshotReader(String path) throws IOException
     {
-        Path rootPath = Paths.get(path, SnapshotWriter._rootFolderName);
+        Path rootPath = Paths.get(path, SnapshotWriter.ROOT_FOLDER_NAME);
         if(!Files.exists(rootPath))
         {
             throw new IOException();
         }
 
-        _directory = Paths.get(path).toString();
+        directory = Paths.get(path).toString();
     }
 
     /**
@@ -36,7 +38,7 @@ public class SnapshotReader
      */
     public List<String> getFoldersList() throws IOException
     {
-        try(Stream<String> lines = Files.lines(Paths.get(_directory, SnapshotWriter._rootFolderName, SnapshotWriter._foldersListFileName)))
+        try(Stream<String> lines = Files.lines(Paths.get(directory, SnapshotWriter.ROOT_FOLDER_NAME, SnapshotWriter.FOLDERS_LIST_FILE_NAME)))
         {
             return lines.collect(Collectors.toList());
         }
@@ -50,7 +52,7 @@ public class SnapshotReader
      */
     public SnapshotFolder getSnapshotFolder(String folderName) throws IOException
     {
-        Path path = Paths.get(_directory, SnapshotWriter._rootFolderName, folderName);
+        Path path = Paths.get(directory, SnapshotWriter.ROOT_FOLDER_NAME, folderName);
         if(Files.exists(path))
         {
             return new SnapshotFolder(path.toString());
@@ -58,6 +60,4 @@ public class SnapshotReader
 
         throw new IOException();
     }
-    
-    private String _directory = null;
 }

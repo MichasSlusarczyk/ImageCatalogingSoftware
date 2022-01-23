@@ -13,8 +13,13 @@ import java.util.List;
  * SnapshotWriter class is used to create new .Snapshot directory with its folders and
  * cataloged images
  */
-public class SnapshotWriter 
-{
+public class SnapshotWriter {
+
+    private String directory = null;
+    public static final String ROOT_FOLDER_NAME = ".Snapshot";
+    public static final String FOLDERS_LIST_FILE_NAME = "FoldersList";
+    public static final String IMAGES_LIST_FILE_NAME = "ImagesList";
+
     /**
      * Creates the .Snapshot folder and folders list file in it
      * @param path directory where it should create the folder
@@ -22,7 +27,7 @@ public class SnapshotWriter
      */
     public void initializeSnapshot(String path) throws IOException
     {
-        Path directoryPath = Paths.get(path, _rootFolderName);
+        Path directoryPath = Paths.get(path, ROOT_FOLDER_NAME);
         if(Files.exists(directoryPath))
         {
             if(!deleteDirectory(directoryPath.toFile()))
@@ -35,8 +40,8 @@ public class SnapshotWriter
         {
             Files.setAttribute(directoryPath, "dos:hidden", true);
         }
-        _directory = Paths.get(path).toString();
-        _createFoldersList();
+        directory = Paths.get(path).toString();
+        createFoldersList();
     }
 
     private boolean deleteDirectory(File directoryToBeDeleted) {
@@ -58,16 +63,16 @@ public class SnapshotWriter
      */
     public void createFolder(String folderName, List<String> imagesPathsList) throws IOException, FileAlreadyExistsException
     {
-        _addFolderToFoldersList(folderName);
-        Path virtualFolderPath = Paths.get(_directory, _rootFolderName, folderName);
+        addFolderToFoldersList(folderName);
+        Path virtualFolderPath = Paths.get(directory, ROOT_FOLDER_NAME, folderName);
         Files.createDirectory(virtualFolderPath);
-        _createImagesList(folderName);
-        _saveImagesToImagesList(folderName, imagesPathsList);
+        createImagesList(folderName);
+        saveImagesToImagesList(folderName, imagesPathsList);
     }
 
-    private void _saveImagesToImagesList(String folderName, List<String> imagesPathsList) throws IOException
+    private void saveImagesToImagesList(String folderName, List<String> imagesPathsList) throws IOException
     {
-        try(FileWriter imagesListWriter = new FileWriter(Paths.get(_directory, _rootFolderName, folderName, _imagesListFileName).toString(), true))
+        try(FileWriter imagesListWriter = new FileWriter(Paths.get(directory, ROOT_FOLDER_NAME, folderName, IMAGES_LIST_FILE_NAME).toString(), true))
         {
             for(String imagePath : imagesPathsList)
             {
@@ -76,32 +81,27 @@ public class SnapshotWriter
         }
     }
 
-    private void _createImagesList(String folderName) throws IOException, FileAlreadyExistsException
+    private void createImagesList(String folderName) throws IOException, FileAlreadyExistsException
     {
-        if(!(new File(Paths.get(_directory, _rootFolderName, folderName, _imagesListFileName).toString()).createNewFile()))
+        if(!(new File(Paths.get(directory, ROOT_FOLDER_NAME, folderName, IMAGES_LIST_FILE_NAME).toString()).createNewFile()))
         {
-            throw new FileAlreadyExistsException(Paths.get(_directory, _rootFolderName, folderName, _imagesListFileName).toString());
+            throw new FileAlreadyExistsException(Paths.get(directory, ROOT_FOLDER_NAME, folderName, IMAGES_LIST_FILE_NAME).toString());
         }
     }
 
-    private void _addFolderToFoldersList(String folderName) throws IOException
+    private void addFolderToFoldersList(String folderName) throws IOException
     {
-        try(FileWriter foldersListWriter = new FileWriter(Paths.get(_directory, _rootFolderName, _foldersListFileName).toString(), true))
+        try(FileWriter foldersListWriter = new FileWriter(Paths.get(directory, ROOT_FOLDER_NAME, FOLDERS_LIST_FILE_NAME).toString(), true))
         {
             foldersListWriter.write(folderName + "\n");
         }
     }
 
-    private void _createFoldersList() throws IOException, FileAlreadyExistsException
+    private void createFoldersList() throws IOException
     {
-        if(!(new File(Paths.get(_directory, _rootFolderName, _foldersListFileName).toString()).createNewFile()))
+        if(!(new File(Paths.get(directory, ROOT_FOLDER_NAME, FOLDERS_LIST_FILE_NAME).toString()).createNewFile()))
         {
-            throw new FileAlreadyExistsException(Paths.get(_directory, _rootFolderName, _foldersListFileName).toString());
+            throw new FileAlreadyExistsException(Paths.get(directory, ROOT_FOLDER_NAME, FOLDERS_LIST_FILE_NAME).toString());
         }
     }
-
-    private String _directory = null;
-    public static final String _rootFolderName = ".Snapshot";
-    public static final String _foldersListFileName = "FoldersList";
-    public static final String _imagesListFileName = "ImagesList";
 }

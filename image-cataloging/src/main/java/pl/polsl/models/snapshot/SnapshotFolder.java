@@ -1,8 +1,6 @@
 package pl.polsl.models.snapshot;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,13 +15,15 @@ import java.util.stream.Stream;
  */
 public class SnapshotFolder 
 {
+    private String folderPath;
+
     /**
      * Constructor
      * @param folderName path to folder associated with this object
      */
     public SnapshotFolder(String folderName)
     {
-        _folderName = folderName;
+        folderPath = folderName;
     }
 
     /**
@@ -33,7 +33,7 @@ public class SnapshotFolder
      */
     public List<String> getImagesList() throws IOException
     {
-        try(Stream<String> lines = Files.lines(Paths.get(_folderName, SnapshotWriter._imagesListFileName)))
+        try(Stream<String> lines = Files.lines(Paths.get(folderPath, SnapshotWriter.IMAGES_LIST_FILE_NAME)))
         {
             return lines.collect(Collectors.toList());
         }
@@ -53,8 +53,7 @@ public class SnapshotFolder
             throw new IOException();
         }
         
-        return new SnapshotImage(_folderName, imageRealPath);
+        return new SnapshotImage(folderPath, imageRealPath);
     }
 
-    private String _folderName;
 }
